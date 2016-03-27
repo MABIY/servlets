@@ -1,6 +1,7 @@
 package com.china.lh.servlets;
 //import required java libraries
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -9,12 +10,12 @@ import java.io.PrintWriter;
 /**
  * Created by lh on 16-3-27.
  */
-public class HelloWorld {
+public class HelloWorld extends HttpServlet{
     private String message;
 
     public void init() throws ServletException
     {
-        // Do required initialization
+        // Do required initialization　　
         message = "Hello World";
     }
 
