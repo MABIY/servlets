@@ -23,7 +23,7 @@
          metadata-complete="true">
     <servlet>
         <servlet-name>HelloForm</servlet-name>
-        <servlet-class>com.china.lh.servlets.HelloForm</servlet-class>
+        <servlet-class>com.china.lh.servlets.Refresh</servlet-class>
     </servlet>
 
     <servlet-mapping>
