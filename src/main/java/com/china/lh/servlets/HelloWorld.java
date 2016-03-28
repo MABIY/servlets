@@ -17,6 +17,7 @@ public class HelloWorld extends HttpServlet{
     {
         // Do required initialization　　
         message = "Hello World";
+        System.out.println("HelloWorld init()");
     }
 
     public void doGet(HttpServletRequest request,
@@ -29,6 +30,12 @@ public class HelloWorld extends HttpServlet{
         // Actual logic goes here.
         PrintWriter out = response.getWriter();
         out.println("<h1>" + message + "</h1>");
+        System.out.println("HelloWorld doGet");
+    }
+
+    public void doPost(HttpServletRequest request,
+                       HttpServletResponse response) throws ServletException, IOException {
+        doGet(request,response);
     }
 
     public void destroy()
