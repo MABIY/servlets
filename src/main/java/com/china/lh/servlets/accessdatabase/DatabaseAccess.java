@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+// 不添加引用在　tomcat container　中启动报无法找到　 com.mysql.jdbc.Driver 类？　再idea 中可以
+import com.mysql.jdbc.Driver;
 
 import static java.util.jar.Pack200.Packer.PASS;
 
@@ -41,7 +43,7 @@ public class DatabaseAccess extends HttpServlet {
         Statement statement = null;
         try {
             //register JDBC dirver
-            Class.forName("com.mysql.jdbc.Driver");
+//            Class.forName(JDBC_DRIVER);
 
             //Open a connection
             connection = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -62,8 +64,6 @@ public class DatabaseAccess extends HttpServlet {
             rs.close();
             statement.close();
             connection.close();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -86,7 +86,7 @@ public class DatabaseAccess extends HttpServlet {
 
     }
     public void test() throws SQLException, ClassNotFoundException {
-//        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.jdbc.Driver");
 
         //Open a connection
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/logistics","root","shuju");
