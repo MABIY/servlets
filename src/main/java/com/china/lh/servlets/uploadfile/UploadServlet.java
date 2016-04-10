@@ -2,15 +2,20 @@ package com.china.lh.servlets.uploadfile;
 
 // import required java libraries
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by lh on 16-3-31.
@@ -44,7 +49,62 @@ public class UploadServlet extends HttpServlet {
             out.println("</html>");
             return;
         }
-//        DiskFileItemFactory
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        //maximum size that will be stored in memory
+        factory.setSizeThreshold(maxMemSize);
+        //Location to save data that is larger than maxMemSize.
+        factory.setRepository(new File("/tmp"));
 
+        //create a new File upload handler
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        //maximum file size to be uploaded
+        upload.setSizeMax(maxFileSize);
+
+        try {
+            //parse the request to get file items
+            List fileItems = upload.parseRequest(request);
+            //Process the uploaded file items
+            Iterator i = fileItems.iterator();
+
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet upload</title>");
+            out.println("</head>");
+            out.println("<body>");
+
+            while (i.hasNext()) {
+                FileItem fi = (FileItem) i.next();
+                if (!fi.isFormField()) {
+                    //get the upload file parameters
+                    String fieldName = fi.getFieldName();
+                    System.out.println("fieldName" + fieldName);
+                    String fileName = fi.getName();
+                    System.out.println("fileName" + fileName);
+                    boolean isInMemory = fi.isInMemory();
+                    System.out.println("isInMemory" + isInMemory);
+                    long sizeInByte = fi.getSize();
+                    //write the file
+                    if (fileName.lastIndexOf("\\") >= 0) {
+                        file = new File(filePath + fileName.substring(fileName.lastIndexOf("\\")));
+                    } else {
+                        file = new File(filePath +
+                                fileName.substring(fileName.lastIndexOf("\\") + 1));
+                    }
+                    fi.write(file);
+                    out.println("</body>");
+                    out.println("</html>");
+                }
+            }
+        } catch (FileUploadException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        System.out.println("mm");
+        throw new ServletException("Get method used with" + getClass().getName() + ":POST method required.");
     }
 }
