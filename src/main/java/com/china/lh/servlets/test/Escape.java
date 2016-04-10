@@ -8,7 +8,10 @@ public class Escape {
         String sName = "Java转义字符(补遗)";
 
         // reference  http://www.runoob.com/java/java-regular-expressions.html
-        sName = sName.replaceFirst("\\(补遗\\)","");
+        //文字替换
+        sName = sName.replace("(","");
+        //正正则表达式替换
+        sName = sName.replaceFirst("\\(","");
         System.out.println(sName);
         System.out.println(sName);
     }
